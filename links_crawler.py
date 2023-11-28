@@ -1,13 +1,16 @@
 from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup
 from helpers import collect_car_pages
+from car_crawler import car_crawler
+import time
+import pandas as pd
 
 base_url = "https://www.mobiauto.com.br"
 url = "https://www.mobiauto.com.br/comprar/carros/ba-salvador?utm_medium=cpc&utm_source=google&utm_date=1701045556082&utm_term=Search_Institucional_BR,performance_mobiauto&gclid=CjwKCAiA9ourBhAVEiwA3L5RFpyf6vWm5J9ErRfBeuj1iY4gH5AwDxBR0rTYPeCyORpMw1MvuF6MDRoCaXUQAvD_BwE"
 
 request = Request(url, headers={'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36'})
 html = urlopen(request)
-bs = BeautifulSoup(html)
+bs = BeautifulSoup(html, 'html.parser')
 
 next_page_link = bs.find('button', {'data-testid': 'next-button'}).parent.get('href')
 car_pages = collect_car_pages(bs)
@@ -22,7 +25,18 @@ while(next_page_link != None):
     car_pages.extend(collect_car_pages(bs))
     next_page_link = bs.find('button', {'data-testid': 'next-button'}).parent.get('href')
     count += 1
+    
     if (count > 5):
+        # just for initial tests
         break
 
-print(car_pages)
+    time.sleep(3) # looking less like a robot
+
+df = pd.DataFrame()
+
+for url in car_pages:
+    car_info = car_crawler(base_url+url)
+    car_info = pd.DataFrame(car_info)
+    df = pd.concat([df,car_info], ignore_index=True)
+
+df.to_csv('example.csv')

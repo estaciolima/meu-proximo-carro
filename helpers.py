@@ -4,7 +4,7 @@ def collect_car_pages(bs):
 
     for pages in pages_links:
         car_page = pages.a.get("href")
-        print(f'link: {car_page}')
+        #print(f'link: {car_page}')
         car_pages.append(car_page)
 
     return car_pages
