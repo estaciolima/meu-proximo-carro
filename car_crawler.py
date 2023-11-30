@@ -1,8 +1,6 @@
 from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup
 
-url = "https://www.mobiauto.com.br/comprar/carros/ba-paulo-afonso/volkswagen/virtus/2023/1-0-200-tsi-highline-flex-aut/detalhes/7320664?page=detail&utm_medium=cpc&utm_source=google&utm_date=1701045556082&utm_term=Search_Institucional_BR,performance_mobiauto&gclid=CjwKCAiA9ourBhAVEiwA3L5RFpyf6vWm5J9ErRfBeuj1iY4gH5AwDxBR0rTYPeCyORpMw1MvuF6MDRoCaXUQAvD_BwE"
-
 def car_crawler(url):
     request = Request(url, headers={'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36'})
     html = urlopen(request)
@@ -11,6 +9,8 @@ def car_crawler(url):
     print(f'URL being scraped: {url}')
 
     ficha_tecnica = {}
+    ficha_tecnica['URL'] = url
+
     try:
         ficha_tecnica['Fabricante'] = [bs.find('span', {'class': 'mui-style-z7se3t'}).get_text()]
     except AttributeError:
@@ -40,11 +40,14 @@ def car_crawler(url):
     for tech_spec in tech_specs:
         if (len(tech_spec.contents) == 3):
             #print(f'{tech_spec.contents[0].get_text()}: {tech_spec.contents[2].get_text()}')
-            ficha_tecnica[tech_spec.contents[0].get_text()] = [tech_spec.contents[2].get_text()]
+            chave =  tech_spec.contents[0].get_text()
+            valor = tech_spec.contents[2].get_text()
+            if(chave not in ficha_tecnica):
+                ficha_tecnica[chave] = [valor]
         else:
             #print(f'tech spec: {tech_spec.get_text()}')
-            ficha_tecnica[tech_spec.get_text()] = ['Sim']
+            chave = tech_spec.get_text()
+            if (chave not in ficha_tecnica):
+                ficha_tecnica[chave] = ['Sim']
 
     return ficha_tecnica
-
-# https://stackoverflow.com/questions/28097222/pandas-merge-two-dataframes-with-different-columns

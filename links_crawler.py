@@ -21,22 +21,13 @@ while(next_page_link != None):
     url = base_url + next_page_link
     request = Request(url, headers={'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36'})
     html = urlopen(request)
-    bs = BeautifulSoup(html)
+    bs = BeautifulSoup(html, 'html.parser')
     car_pages.extend(collect_car_pages(bs))
     next_page_link = bs.find('button', {'data-testid': 'next-button'}).parent.get('href')
     count += 1
     
-    if (count > 5):
+    if (count > 1):
         # just for initial tests
         break
 
     time.sleep(3) # looking less like a robot
-
-df = pd.DataFrame()
-
-for url in car_pages:
-    car_info = car_crawler(base_url+url)
-    car_info = pd.DataFrame(car_info)
-    df = pd.concat([df,car_info], ignore_index=True)
-
-df.to_csv('example.csv')
