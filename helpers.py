@@ -28,3 +28,6 @@ def convert_valor_to_numerical(valor):
         return int(valor[1])
     else:
         raise Exception('More fields than expected: {}'.format(valor))
+    
+def data_cleaning():
+    pass
