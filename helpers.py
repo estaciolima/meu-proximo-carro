@@ -31,7 +31,8 @@ def convert_valor_to_numerical(valor):
     
 def data_preparation(df: pd.DataFrame) -> pd.DataFrame:
     '''
-        Cleate new variables and treat missing values
+        Cleate new variables and treat missing values.
+        Prepare the database to start the analysis.
     '''
     df = df.copy()
     # Drop duplicates
