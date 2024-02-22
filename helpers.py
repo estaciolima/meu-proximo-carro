@@ -67,7 +67,9 @@ def data_preparation(df: pd.DataFrame) -> pd.DataFrame:
     df['KM'] = df['KM'].apply(lambda x: int(x.replace('.','')))
 
     # Drop useless columns
-    df.drop(['Unnamed: 0', 'URL', 'Placa final', 'Ano', 'Carro ID', 'Production year'], axis=1, inplace=True)
+    df.drop(['Unnamed: 0', 'URL', 'Placa final', 
+             'Ano', 'Carro ID', 'Production year',
+             'Câmbio automático'], axis=1, inplace=True)
 
     # Dataset contains absurd KM values that breaks some analysis, I remove them here:
     df.drop(df[df['KM'] > 1000000].index, inplace=True)
