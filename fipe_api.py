@@ -2,6 +2,8 @@ import requests
 from bs4 import BeautifulSoup
 from urllib.request import Request, urlopen
 import pandas as pd
+import time
+import random
 
 def consulta_fipe(codigo_marca : str, codigo_modelo : str, codigo_ano : str, tabela_ref='306'):
     codigo_ano = codigo_ano.split('-') # o ano na interface da FIPE é fornecido no formato '2011-1', em que 2011 é o ano e 1 é o tipo de combustível
@@ -94,10 +96,32 @@ def guardar_modelos(codigo_marca):
     df.to_csv('lista_de_modelos_21.csv', index=False)
 
 def guardar_anos(codigo_marca, codigo_modelo):
+    '''
+        Baixa lista de anos modelo de um modelo de uma marca.
+    '''
     resposta = get_codigo_ano(codigo_marca, codigo_modelo)
     df = pd.read_json(resposta.text)
     df.to_csv('lista_de_anos_21_5273.csv', index=False)
 
+def consultar_historico_modelo(codigo_marca, codigo_modelo, codigo_ano, tabela_ref):
+    '''
+        Criar histórico de preços, como o preço mais recente estando na 'tabela_ref', até a entrada mais antiga.
+    '''
+    historico = []
 
-guardar_anos('21', '5273')
+    print(f'tabela ref: {tabela_ref}')
+    resposta = consulta_fipe(codigo_marca, codigo_modelo, codigo_ano, tabela_ref)
 
+    while ('codigo' not in resposta.keys()):
+        tabela_ref = str(int(tabela_ref)-1)
+        print(f'tabela ref: {tabela_ref}')
+        historico.append(resposta)
+        resposta = consulta_fipe(codigo_marca, codigo_modelo, codigo_ano, tabela_ref)
+        time.sleep(2+random.random())
+
+
+    df = pd.DataFrame.from_records(historico)
+    return df
+
+df = consultar_historico_modelo('21','5273','2014-1','306')
+df.to_csv('historico_punto.csv', index=False) 
