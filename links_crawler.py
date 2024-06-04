@@ -14,7 +14,7 @@ request = Request(url, headers={'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) A
 html = urlopen(request)
 bs = BeautifulSoup(html, 'html.parser')
 
-next_page_link = bs.find('button', {'data-testid': 'next-button'}).parent.get('href')
+next_page_link = bs.find('span', {'aria-label': 'Ir para próxima página'}).parent.get('href')
 car_pages = collect_car_pages(bs)
 
 count = 1
@@ -27,7 +27,7 @@ while(next_page_link != None):
     bs = BeautifulSoup(html, 'html.parser')
     car_pages.extend(collect_car_pages(bs))
     try:
-        next_page_link = bs.find('button', {'data-testid': 'next-button'}).parent.get('href')
+        next_page_link = bs.find('span', {'aria-label': 'Ir para próxima página'}).parent.get('href')   
     except AttributeError:
         next_page_link = None
     count += 1

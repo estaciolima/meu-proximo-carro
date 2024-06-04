@@ -17,9 +17,9 @@ def car_crawler(url):
         print('Veículo não está mais disponível!')
         return {}
     
-    ficha_tecnica['Modelo'] = [bs.find('span', {'class': 'mui-style-187svjm'}).get_text()]
+    ficha_tecnica['Modelo'] = [bs.find('span', {'class': 'mui-style-1gr8pbn'}).get_text()]
     ficha_tecnica['Versao'] = [bs.find('h2', {'class': 'mui-style-hka4fm'}).get_text()]
-    ficha_tecnica['Valor'] = [bs.find('p', {'class': 'mui-style-gzbtep'}).get_text()]
+    ficha_tecnica['Valor'] = [bs.find('p', {'class': 'mui-style-h31tor'}).get_text()]
 
     general_header = bs.find_all('p', {'class': 'mui-style-1nwyav9'})
     general_info = bs.find_all('div', {'class': 'mui-style-1mzljxq'})
