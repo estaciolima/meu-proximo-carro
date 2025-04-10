@@ -8,7 +8,7 @@ def collect_car_pages(bs):
     Arguments: 
         - bs -> BeutifulSoup object
     '''
-    pages_links = bs.findAll('div', {'class':'active mui-style-14y9di7'})
+    pages_links = bs.findAll('div', {'class':'active css-14y9di7'})
     car_pages = []
 
     for pages in pages_links:
