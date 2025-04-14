@@ -113,15 +113,18 @@ def consultar_historico_modelo(codigo_marca, codigo_modelo, codigo_ano, tabela_r
     print(f'tabela ref: {tabela_ref}')
     resposta = consulta_fipe(codigo_marca, codigo_modelo, codigo_ano, tabela_ref)
 
-    while ('codigo' not in resposta.keys()):
+    quantidade_meses = 0
+    while ('codigo' not in resposta.keys() and quantidade_meses < 24):
         tabela_ref = str(int(tabela_ref)-1)
         print(f'tabela ref: {tabela_ref}')
         historico.append(resposta)
         resposta = consulta_fipe(codigo_marca, codigo_modelo, codigo_ano, tabela_ref)
+        quantidade_meses += 1
         time.sleep(2+random.random())
 
 
     df = pd.DataFrame.from_records(historico)
+    df = df.iloc[::-1]
     return df
 
 def criar_dataset_com_modelos_e_marcas():
