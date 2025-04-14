@@ -31,7 +31,6 @@ while(next_page_link != None):
     except AttributeError:
         next_page_link = None
     count += 1
-    break # debugging purpose - delete after
 
 get_all_the_links_time = time.time()
 print(f'Time to get all the links: {get_all_the_links_time-start_time}') # ~2 min
