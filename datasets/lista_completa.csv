@@ -1,0 +1,58 @@
+Marca,Código Marca,Modelo,Código Modelo,Ano,Código Ano
+Acura,1,Integra GS 1.8,1,1992 Gasolina,1992-1
+Acura,1,Legend 3.2/3.5,2,1998 Gasolina,1998-1
+Acura,1,NSX 3.0,3,1995 Gasolina,1995-1
+Agrale,2,MARRUÁ 2.8 12V 132cv TDI Diesel,4,2007 Diesel,2007-3
+Agrale,2,MARRUÁ AM 100 2.8  CS TDI Diesel,4564,2015 Diesel,2015-3
+Agrale,2,MARRUÁ AM 100 2.8 CD TDI Diesel,4563,2015 Diesel,2015-3
+Agrale,2,MARRUÁ AM 150 2.8  CS TDI Diesel,4566,2015 Diesel,2015-3
+Agrale,2,MARRUÁ AM 150 2.8 CD TDI Diesel,4565,2015 Diesel,2015-3
+Agrale,2,MARRUÁ AM 200 2.8  CD TDI Diesel,4567,2022 Diesel,2022-3
+Agrale,2,MARRUÁ AM 200 2.8 CS TDI Diesel,4568,2022 Diesel,2022-3
+Agrale,2,MARRUÁ AM 200 Esc. 3.8 TDI Die.Aut. (E6),10883,32000 Diesel,32000-3
+Agrale,2,MARRUÁ AM 200 Escolar 2.8 TDI Diesel,9352,2022 Diesel,2022-3
+Agrale,2,MARRUÁ AM 200 Escolar 3.8 TDI Die. (E6),10884,32000 Diesel,32000-3
+Agrale,2,MARRUÁ AM 200 Microbus 2.8 TDI Diesel,9353,2022 Diesel,2022-3
+Agrale,2,MARRUÁ AM 250 3.8 CD TDI Die. Aut. (E6),10864,32000 Diesel,32000-3
+Agrale,2,MARRUÁ AM 250 3.8 CD TDI Diesel (E6),10569,32000 Diesel,32000-3
+Agrale,2,MARRUÁ AM 250 3.8 CS TDI Die. Aut. (E6),10865,32000 Diesel,32000-3
+Agrale,2,MARRUÁ AM 250 3.8 CS TDI Diesel (E6),10866,32000 Diesel,32000-3
+Agrale,2,MARRUÁ AM 50 2.8 140cv TDI Diesel,4569,2011 Diesel,2011-3
+Alfa Romeo,3,145 Elegant 1.7/1.8 16V,5,1999 Gasolina,1999-1
+Alfa Romeo,3,145 Elegant 2.0 16V,6,1998 Gasolina,1998-1
+Alfa Romeo,3,145 Quadrifoglio 2.0,7,1999 Gasolina,1999-1
+Alfa Romeo,3,145 QV,8,1998 Gasolina,1998-1
+Alfa Romeo,3,147 2.0 16V 148cv 4p Semi-Aut.,9,2005 Gasolina,2005-1
+Alfa Romeo,3,155,10,1997 Gasolina,1997-1
+Alfa Romeo,3,155 Super,11,1997 Gasolina,1997-1
+Alfa Romeo,3,156 2.5 V6 24V 190cv 4p Aut.,12,2003 Gasolina,2003-1
+Alfa Romeo,3,156 Sport Wagon 2.0 16V,13,2002 Gasolina,2002-1
+Alfa Romeo,3,156 Sport Wagon 2.5 V6 24V 4p Aut.,14,2004 Gasolina,2004-1
+Alfa Romeo,3,156 TS/Sport/Elegant 2.0 16V,15,2002 Gasolina,2002-1
+Alfa Romeo,3,164 3.0 V6,16,1996 Gasolina,1996-1
+Alfa Romeo,3,164 Super V6 24V,17,1996 Gasolina,1996-1
+Alfa Romeo,3,166 3.0 V6 24V,18,2003 Gasolina,2003-1
+Alfa Romeo,3,2300 TI/TI-4,19,1986 Gasolina,1986-1
+Alfa Romeo,3,Spider 2.0/3.0,20,1997 Gasolina,1997-1
+AM Gen,4,Hummer Hard-Top 6.5 4x4 Diesel TB,21,2000 Diesel,2000-3
+AM Gen,4,Hummer Open-Top 6.5 4x4 Diesel TB,22,2000 Diesel,2000-3
+AM Gen,4,Hummer Wagon 6.5 4x4 Diesel TB,23,2000 Diesel,2000-3
+Asia Motors,5,AM-825 Luxo 4.0 Diesel,24,1998 Diesel,1998-3
+Asia Motors,5,AM-825 Super Luxo 4.0 Diesel,25,1998 Diesel,1998-3
+Asia Motors,5,Hi-Topic SLX/SDX/DLX Full Diesel,26,1998 Diesel,1998-3
+Asia Motors,5,Hi-Topic STD Diesel,27,1998 Diesel,1998-3
+Asia Motors,5,Hi-Topic Van 2.7 Diesel (furgão),28,1997 Diesel,1997-3
+Asia Motors,5,Jipe Rocsta GT 4x4 2.2 Diesel,29,1995 Diesel,1995-3
+Asia Motors,5,Topic Carga 2.7 Diesel (furgão),30,1999 Diesel,1999-3
+Asia Motors,5,Topic Luxo Diesel,31,1999 Diesel,1999-3
+Asia Motors,5,Topic Super Luxo Diesel,32,1999 Diesel,1999-3
+Asia Motors,5,Towner Coach Full,33,1998 Gasolina,1998-1
+Asia Motors,5,Towner Furgão,34,1999 Gasolina,1999-1
+Asia Motors,5,Towner Glass Van,35,1998 Gasolina,1998-1
+Asia Motors,5,Towner Luxo,36,1999 Gasolina,1999-1
+Asia Motors,5,Towner Multiuso 5p,37,1999 Gasolina,1999-1
+Asia Motors,5,Towner Panel Van,38,1998 Gasolina,1998-1
+Asia Motors,5,Towner Pick-Up,39,1999 Gasolina,1999-1
+Asia Motors,5,Towner SDX / DLX/ STD,40,1998 Gasolina,1998-1
+Asia Motors,5,Towner Super Luxo,41,1999 Gasolina,1999-1
+Asia Motors,5,Towner Truck,42,1998 Gasolina,1998-1
