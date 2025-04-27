@@ -18,11 +18,15 @@ def car_crawler(url):
         print('Veículo não está mais disponível!')
         return {}
     
-    ficha_tecnica['Modelo'] = [bs.find('span', {'class': 'css-1gr8pbn'}).get_text()]
-    ficha_tecnica['Versao'] = [bs.find('h2', {'class': 'css-hf0294'}).get_text()]
+    modelo = bs.find('span', {'class': 'css-1gr8pbn'}).get_text()
+    versao = bs.find('h2', {'class': 'css-hf0294'}).get_text()
+    
+    ficha_tecnica['Modelo'] = [modelo]
+    ficha_tecnica['Versao'] = [versao]
+    ficha_tecnica['Modelo_FIPE'] = [modelo + ' ' + versao]
     ficha_tecnica['Valor'] = [bs.find('p', {'class': 'css-h31tor'}).get_text()]
-
-    general_header = bs.find_all('p', {'class': 'css-1nwyav9'})
+    
+    general_header = bs.find_all('p', {'class': 'css-c9jst6'})
     general_info = bs.find_all('div', {'class': 'css-1mzljxq'})
 
     # TODO nao está pegando a info do câmbio
@@ -30,25 +34,25 @@ def car_crawler(url):
         #print(f'{header.get_text()}: {info.get_text()}')
         ficha_tecnica[header.get_text()] = [info.get_text()]
 
-    features = bs.find_all('div', {'class': 'css-av0skd'})
+    # features = bs.find_all('div', {'class': 'css-av0skd'})
 
-    for feature in features:
-        #print(f'feature: {feature.get_text()}')
-        ficha_tecnica[feature.get_text()] = ["Sim"]
+    # for feature in features:
+    #     #print(f'feature: {feature.get_text()}')
+    #     ficha_tecnica[feature.get_text()] = ["Sim"]
 
-    tech_specs = bs.find_all('div', {'class': 'css-7cwry4'})
+    # tech_specs = bs.find_all('div', {'class': 'css-7cwry4'})
 
-    for tech_spec in tech_specs:
-        if (len(tech_spec.contents) == 3):
-            #print(f'{tech_spec.contents[0].get_text()}: {tech_spec.contents[2].get_text()}')
-            chave =  tech_spec.contents[0].get_text()
-            valor = tech_spec.contents[2].get_text()
-            if(chave not in ficha_tecnica):
-                ficha_tecnica[chave] = [valor]
-        else:
-            #print(f'tech spec: {tech_spec.get_text()}')
-            chave = tech_spec.get_text()
-            if (chave not in ficha_tecnica):
-                ficha_tecnica[chave] = ['Sim']
+    # for tech_spec in tech_specs:
+    #     if (len(tech_spec.contents) == 3):
+    #         #print(f'{tech_spec.contents[0].get_text()}: {tech_spec.contents[2].get_text()}')
+    #         chave =  tech_spec.contents[0].get_text()
+    #         valor = tech_spec.contents[2].get_text()
+    #         if(chave not in ficha_tecnica):
+    #             ficha_tecnica[chave] = [valor]
+    #     else:
+    #         #print(f'tech spec: {tech_spec.get_text()}')
+    #         chave = tech_spec.get_text()
+    #         if (chave not in ficha_tecnica):
+    #             ficha_tecnica[chave] = ['Sim']
 
     return ficha_tecnica

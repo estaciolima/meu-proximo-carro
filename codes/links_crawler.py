@@ -31,6 +31,7 @@ while(next_page_link != None):
     except AttributeError:
         next_page_link = None
     count += 1
+    break # TODO: apagar depois
 
 get_all_the_links_time = time.time()
 print(f'Time to get all the links: {get_all_the_links_time-start_time}') # ~2 min
@@ -44,4 +45,4 @@ for url in car_pages:
 
 df.to_csv(f'database-{time.time()}.csv')
 
-print(f'Time to scrap all the pages: {time.time()-get_all_the_links_time}') # ~ 32 min
+print(f'Time to scrap all the pages: {time.time()-get_all_the_links_time}') # ~ 36 min

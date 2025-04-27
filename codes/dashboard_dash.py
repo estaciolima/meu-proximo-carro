@@ -3,7 +3,9 @@ import plotly.express as px
 import pandas as pd
 from fipe_api import consultar_historico_modelo
 
-df = pd.read_csv('datasets/lista_completa_fiat.csv')
+df_fipe = pd.read_csv('datasets/lista_completa_fiat.csv')
+df_seminovos = pd.read_csv('datasets/database_cleaned-1716945632.246805.csv')
+df_seminovos['ModeloVersao'] = df_seminovos.apply(lambda row: row['Modelo']+''+row['Versao'], axis=1)
 
 app = Dash()
 
@@ -13,7 +15,7 @@ app.layout = html.Div([
     html.Label("Marca"),
     dcc.Dropdown(
         id='dropdown-marca',
-        options=[{'label': marca, 'value': marca} for marca in df['Marca'].unique().tolist()],
+        options=[{'label': marca, 'value': marca} for marca in df_fipe['Marca'].unique().tolist()],
         placeholder='Selecione uma marca'
     ),
 
@@ -39,7 +41,7 @@ app.layout = html.Div([
 def atualizar_modelos(marca):
     if marca is None:
         return [], None#, [], None
-    modelos = df[df['Marca']==marca]['Modelo'].unique().tolist()
+    modelos = df_fipe[df_fipe['Marca']==marca]['Modelo'].unique().tolist()
     return [{'label': modelo, 'value': modelo} for modelo in modelos], None #, [], None
 
 
@@ -53,9 +55,9 @@ def atualizar_modelos(marca):
 def atualizar_anos(marca, modelo):
     if marca is None or modelo is None:
         return [], None
-    anos = df[
-                (df['Marca'] == marca) &
-                (df['Modelo'] == modelo)
+    anos = df_fipe[
+                (df_fipe['Marca'] == marca) &
+                (df_fipe['Modelo'] == modelo)
             ]['Ano'].unique().tolist()
     
     return [{'label': str(ano), 'value': ano} for ano in anos], None
@@ -72,10 +74,10 @@ def atualizar_grafico(n_clicks, ano, marca, modelo):
     if n_clicks == 0 or ano is None:
         return {}  # Gráfico vazio inicialmente
 
-    dff = df[
-                    (df['Marca'] == marca) &
-                    (df['Modelo'] == modelo) &
-                    (df['Ano'] == ano)
+    dff = df_fipe[
+                    (df_fipe['Marca'] == marca) &
+                    (df_fipe['Modelo'] == modelo) &
+                    (df_fipe['Ano'] == ano)
                 ]
 
     df_historico = consultar_historico_modelo(
