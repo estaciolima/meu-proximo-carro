@@ -2,33 +2,77 @@ from dash import Dash, html, dcc, callback, Output, Input, dash_table
 import plotly.express as px
 import pandas as pd
 from fipe_api import consultar_historico_modelo
+import dash_bootstrap_components as dbc
 
 df_fipe = pd.read_csv('datasets/lista_completa_fiat.csv')
 df_seminovos = pd.read_csv('datasets/database_cleaned-1716945632.246805.csv')
 df_seminovos['ModeloVersao'] = df_seminovos.apply(lambda row: row['Modelo']+''+row['Versao'], axis=1)
 
-app = Dash()
+external_stylesheets = [dbc.themes.CERULEAN]
+app = Dash(external_stylesheets=external_stylesheets)
 
 app.layout = html.Div([
     html.H2("Selecione o carro"),
     
-    html.Label("Marca"),
-    dcc.Dropdown(
-        id='dropdown-marca',
-        options=[{'label': marca, 'value': marca} for marca in df_fipe['Marca'].unique().tolist()],
-        placeholder='Selecione uma marca'
-    ),
+    html.Div([
+        html.Div([
+            html.Label("Marca"),
+            dcc.Dropdown(
+                id='dropdown-marca',
+                options=[{'label': marca, 'value': marca} for marca in df_fipe['Marca'].unique().tolist()],
+                placeholder='Selecione uma marca'
+            ),
+        ], style={'width': '30%', 'display': 'inline-block'}),
 
-    html.Label("Modelo"),
-    dcc.Dropdown(id='dropdown-modelo', placeholder='Selecione um modelo'),
+        html.Div([
+            html.Label("Modelo"),
+            dcc.Dropdown(id='dropdown-modelo', placeholder='Selecione um modelo')
+        ], style={'width': '30%', 'display': 'inline-block'}),
 
-    html.Label("Ano Modelo"),
-    dcc.Dropdown(id='dropdown-ano', placeholder='Selecione o ano'),
+        html.Div([
+            html.Label("Ano Modelo"),
+            dcc.Dropdown(id='dropdown-ano', placeholder='Selecione o ano')
+        ], style={'width': '30%', 'display': 'inline-block'}),
+    ], style={'display': 'flex', 'justify-content': 'space-between', 'margin-bottom': '20px'}),
 
-    html.Button("Coletar Dados e Gerar Gráfico", id="botao-coletar", n_clicks=0),
+    html.Div([
+        dbc.Row([
+            dbc.Col(dbc.Card([
+                dbc.CardBody([
+                    html.H4("Preço Médio FIPE", className="card-title"),
+                    html.P("$$$$", className="card-text")
+                ])
+            ]), width=3),
+            dbc.Col(dbc.Card([
+                dbc.CardBody([
+                    html.H4("Preço Médio Anúncios", className="card-title"),
+                    html.P("$$$$", className="card-text")
+                ])
+            ]), width=3),
+            dbc.Col(dbc.Card([
+                dbc.CardBody([
+                    html.H4("Diferença", className="card-title"),
+                    html.P("-%", className="card-text")
+                ])
+            ]), width=3),
+            dbc.Col(dbc.Card([
+                dbc.CardBody([
+                    html.H4("!", className="card-title"),
+                    html.P("Mais barato que a fipe!", className="card-text")
+                ])
+            ]), width=3),
+        ], justify="between", style={'margin-bottom': '20px'})
+    ]),
 
-    dcc.Graph(id="grafico-linha", figure={})
-])
+    dcc.Loading(
+        id="loading-grafico",
+        type="circle",  # ou "default", "dot"
+        children=[
+            dcc.Graph(id="grafico-linha", figure={})
+        ]
+    )
+    
+], style={'margin-left': '20%', 'margin-right': '20%', 'padding': '20px', 'border': '1px solid #ccc', 'border-radius': '10px', 'background-color': '#f9f9f9'})
 
 # Callback para atualizar os modelos com base na marca
 @app.callback(
@@ -55,6 +99,7 @@ def atualizar_modelos(marca):
 def atualizar_anos(marca, modelo):
     if marca is None or modelo is None:
         return [], None
+    
     anos = df_fipe[
                 (df_fipe['Marca'] == marca) &
                 (df_fipe['Modelo'] == modelo)
@@ -65,14 +110,14 @@ def atualizar_anos(marca, modelo):
 # Callback para executar a rotina e gerar gráfico
 @app.callback(
     Output("grafico-linha", "figure"),
-    Input("botao-coletar", "n_clicks"),
+    #Input("botao-coletar", "n_clicks"),
     Input('dropdown-ano', 'value'),
     Input('dropdown-marca', 'value'),
     Input('dropdown-modelo', 'value')
 )
-def atualizar_grafico(n_clicks, ano, marca, modelo):
-    if n_clicks == 0 or ano is None:
-        return {}  # Gráfico vazio inicialmente
+def atualizar_grafico(ano, marca, modelo):
+    if ano is None or marca is None or modelo is None:
+        return {}
 
     dff = df_fipe[
                     (df_fipe['Marca'] == marca) &
