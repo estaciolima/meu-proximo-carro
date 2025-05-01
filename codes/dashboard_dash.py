@@ -64,13 +64,23 @@ app.layout = html.Div([
         ], justify="between", style={'margin-bottom': '20px'})
     ]),
 
+    html.Div([
     dcc.Loading(
-        id="loading-grafico",
+        id="loading-grafico-linha",
         type="circle",  # ou "default", "dot"
         children=[
             dcc.Graph(id="grafico-linha", figure={})
         ]
+    ),
+
+    dcc.Loading(
+        id="loading-grafico-km",
+        type="circle",  # ou "default", "dot"
+        children=[
+            dcc.Graph(id="grafico-km", figure={})
+        ]
     )
+    ], style={'display': 'flex', 'justify-content': 'space-between', 'margin-bottom': '20px'}),
     
 ], style={'margin-left': '20%', 'margin-right': '20%', 'padding': '20px', 'border': '1px solid #ccc', 'border-radius': '10px', 'background-color': '#f9f9f9'})
 
