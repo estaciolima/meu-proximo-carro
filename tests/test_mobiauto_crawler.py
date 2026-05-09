@@ -40,6 +40,7 @@ class MobiautoCrawlerTest(unittest.TestCase):
                         "modelName": "Ora 03",
                         "trimName": "GT",
                         "price": 147900,
+                        "fipePrice": 145077,
                         "cityName": "Guarulhos",
                         "stateAbbreviation": "SP",
                         "productionYear": 2023,
@@ -66,6 +67,7 @@ class MobiautoCrawlerTest(unittest.TestCase):
         self.assertEqual(listing.modelo, "Ora 03")
         self.assertEqual(listing.versao, "GT")
         self.assertEqual(listing.valor, 147900)
+        self.assertEqual(listing.valor_fipe, 145077)
         self.assertEqual(listing.cidade, "Guarulhos - SP")
         self.assertEqual(listing.ano, "2023/2024")
         self.assertEqual(listing.km, 50000)
@@ -74,4 +76,3 @@ class MobiautoCrawlerTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

@@ -39,6 +39,7 @@ def init_sqlite_db(connection: sqlite3.Connection) -> None:
             versao TEXT,
             modelo_fipe TEXT,
             valor INTEGER,
+            valor_fipe INTEGER,
             cidade TEXT,
             ano TEXT,
             ano_fabricacao INTEGER,
@@ -67,6 +68,7 @@ def init_sqlite_db(connection: sqlite3.Connection) -> None:
         );
         """
     )
+    _add_column_if_missing(connection, "mobiauto_listings", "valor_fipe", "INTEGER")
     connection.commit()
 
 
@@ -83,12 +85,12 @@ def upsert_listings(connection: sqlite3.Connection, listings: Iterable[dict[str,
             """
             INSERT INTO mobiauto_listings (
                 listing_id, url, fabricante, modelo, versao, modelo_fipe, valor,
-                cidade, ano, ano_fabricacao, ano_modelo, combustivel, km, cambio,
+                valor_fipe, cidade, ano, ano_fabricacao, ano_modelo, combustivel, km, cambio,
                 cor, carroceria, features
             )
             VALUES (
                 :listing_id, :url, :fabricante, :modelo, :versao, :modelo_fipe,
-                :valor, :cidade, :ano, :ano_fabricacao, :ano_modelo, :combustivel,
+                :valor, :valor_fipe, :cidade, :ano, :ano_fabricacao, :ano_modelo, :combustivel,
                 :km, :cambio, :cor, :carroceria, :features
             )
             ON CONFLICT(listing_id) DO UPDATE SET
@@ -98,6 +100,7 @@ def upsert_listings(connection: sqlite3.Connection, listings: Iterable[dict[str,
                 versao=excluded.versao,
                 modelo_fipe=excluded.modelo_fipe,
                 valor=excluded.valor,
+                valor_fipe=excluded.valor_fipe,
                 cidade=excluded.cidade,
                 ano=excluded.ano,
                 ano_fabricacao=excluded.ano_fabricacao,
@@ -115,6 +118,20 @@ def upsert_listings(connection: sqlite3.Connection, listings: Iterable[dict[str,
 
     connection.commit()
     return len(rows)
+
+
+def _add_column_if_missing(
+    connection: sqlite3.Connection,
+    table_name: str,
+    column_name: str,
+    column_definition: str,
+) -> None:
+    columns = {
+        row["name"]
+        for row in connection.execute(f"PRAGMA table_info({table_name})").fetchall()
+    }
+    if column_name not in columns:
+        connection.execute(f"ALTER TABLE {table_name} ADD COLUMN {column_name} {column_definition}")
 
 
 def upsert_fipe_prices(connection: sqlite3.Connection, prices: Iterable[dict[str, Any]]) -> int:
@@ -144,4 +161,3 @@ def upsert_fipe_prices(connection: sqlite3.Connection, prices: Iterable[dict[str
 
     connection.commit()
     return len(rows)
-

@@ -30,6 +30,7 @@ class MobiautoListing:
     versao: str | None
     modelo_fipe: str | None
     valor: int | None
+    valor_fipe: int | None
     cidade: str | None
     ano: str | None
     ano_fabricacao: int | None
@@ -134,6 +135,7 @@ def _parse_deal_payload(deal: dict[str, Any], url: str) -> MobiautoListing:
         versao=trim,
         modelo_fipe=" ".join(part for part in [model, trim] if part),
         valor=_safe_int(deal.get("price")),
+        valor_fipe=_safe_int(deal.get("fipePrice")),
         cidade=city,
         ano=_format_year(production_year, model_year),
         ano_fabricacao=production_year,
@@ -169,6 +171,7 @@ def _parse_html_fallback(soup: BeautifulSoup, url: str) -> MobiautoListing:
         versao=None,
         modelo_fipe=title,
         valor=price,
+        valor_fipe=None,
         cidade=None,
         ano=None,
         ano_fabricacao=None,
@@ -259,4 +262,3 @@ def _to_str(value: Any) -> str | None:
     if value is None:
         return None
     return str(value)
-

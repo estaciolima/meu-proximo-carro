@@ -15,11 +15,15 @@ def populate_sample_database(
     search_url: str = DEFAULT_SEARCH_URL,
     limit: int = 3,
     fipe_months: int = 1,
+    refresh_existing: bool = True,
 ) -> dict[str, int]:
     connection = connect_sqlite()
     init_sqlite_db(connection)
 
     urls = mobiauto.collect_listing_urls(search_url, limit=limit)
+    if refresh_existing:
+        urls = _merge_urls(urls, _existing_listing_urls(connection))
+
     listings = []
     for url in urls:
         try:
@@ -43,17 +47,40 @@ def populate_sample_database(
     return {"mobiauto_listings": inserted_listings, "fipe_prices": inserted_prices}
 
 
+def _existing_listing_urls(connection) -> list[str]:
+    rows = connection.execute("SELECT url FROM mobiauto_listings WHERE url IS NOT NULL").fetchall()
+    return [row["url"] for row in rows]
+
+
+def _merge_urls(*url_groups: list[str]) -> list[str]:
+    merged: list[str] = []
+    seen: set[str] = set()
+    for urls in url_groups:
+        for url in urls:
+            if url in seen:
+                continue
+            seen.add(url)
+            merged.append(url)
+    return merged
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Populate a small local sample database.")
     parser.add_argument("--search-url", default=DEFAULT_SEARCH_URL)
     parser.add_argument("--limit", type=int, default=3)
     parser.add_argument("--fipe-months", type=int, default=1)
+    parser.add_argument(
+        "--no-refresh-existing",
+        action="store_true",
+        help="Do not recrawl existing listing URLs already stored in the local database.",
+    )
     args = parser.parse_args()
 
     result = populate_sample_database(
         search_url=args.search_url,
         limit=args.limit,
         fipe_months=args.fipe_months,
+        refresh_existing=not args.no_refresh_existing,
     )
     print(result)
 
