@@ -1,0 +1,13 @@
+pandas
+requests
+beautifulsoup4
+dash
+dash-bootstrap-components
+plotly
+streamlit
+Unidecode
+RapidFuzz
+pyarrow
+openpyxl
+SQLAlchemy
+mysql-connector-python
